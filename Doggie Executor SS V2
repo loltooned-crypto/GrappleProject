@@ -1,0 +1,444 @@
+local DOGGIE_CUBE_ICON_ID = "rbxassetid://74670937070008"
+
+local PURPLE      = Color3.fromRGB(160, 32, 192)
+local PURPLE_DARK = Color3.fromRGB(107, 16, 133)
+local PURPLE_DEEP = Color3.fromRGB(61, 8, 84)
+local YELLOW       = Color3.fromRGB(245, 230, 66)
+local PANEL        = Color3.fromRGB(35, 16, 58)
+local PANEL_DARK   = Color3.fromRGB(26, 11, 43)
+local CONSOLE_BG   = Color3.fromRGB(13, 4, 23)
+
+local player = game:GetService("Players").LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "DoggieGod123Executor"
+screenGui.ResetOnSpawn = false
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.Parent = playerGui
+
+-- MAIN WINDOW
+local window = Instance.new("Frame")
+window.Name = "Window"
+window.Size = UDim2.new(0, 460, 0, 380)
+window.Position = UDim2.new(0.5, -230, 0.5, -190)
+window.BackgroundColor3 = PANEL
+window.BorderSizePixel = 0
+window.Parent = screenGui
+
+local windowCorner = Instance.new("UICorner")
+windowCorner.CornerRadius = UDim.new(0, 10)
+windowCorner.Parent = window
+
+local windowStroke = Instance.new("UIStroke")
+windowStroke.Color = YELLOW
+windowStroke.Thickness = 3
+windowStroke.Parent = window
+
+-- OPEN BUTTON
+local openBtn = Instance.new("TextButton")
+openBtn.Name = "OpenButton"
+openBtn.Size = UDim2.new(0, 140, 0, 35)
+openBtn.Position = UDim2.new(0, 20, 0.5, -17)
+openBtn.BackgroundColor3 = PURPLE_DARK
+openBtn.Text = "Open Executor"
+openBtn.Font = Enum.Font.FredokaOne
+openBtn.TextSize = 14
+openBtn.TextColor3 = YELLOW
+openBtn.Visible = false
+openBtn.Parent = screenGui
+
+local openCorner = Instance.new("UICorner")
+openCorner.CornerRadius = UDim.new(0, 8)
+openCorner.Parent = openBtn
+
+local openStroke = Instance.new("UIStroke")
+openStroke.Color = YELLOW
+openStroke.Thickness = 2
+openStroke.Parent = openBtn
+
+-- TITLE BAR
+local titleBar = Instance.new("Frame")
+titleBar.Name = "TitleBar"
+titleBar.Size = UDim2.new(1, 0, 0, 40)
+titleBar.BackgroundColor3 = PURPLE_DARK
+titleBar.BorderSizePixel = 0
+titleBar.Parent = window
+
+local titleBarCorner = Instance.new("UICorner")
+titleBarCorner.CornerRadius = UDim.new(0, 10)
+titleBarCorner.Parent = titleBar
+
+local titleBarMask = Instance.new("Frame")
+titleBarMask.Size = UDim2.new(1, 0, 0, 10)
+titleBarMask.Position = UDim2.new(0, 0, 1, -10)
+titleBarMask.BackgroundColor3 = PURPLE_DARK
+titleBarMask.BorderSizePixel = 0
+titleBarMask.ZIndex = titleBar.ZIndex
+titleBarMask.Parent = titleBar
+
+local titleLayout = Instance.new("UIListLayout")
+titleLayout.FillDirection = Enum.FillDirection.Horizontal
+titleLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
+titleLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+titleLayout.Padding = UDim.new(0, 6)
+titleLayout.SortOrder = Enum.SortOrder.LayoutOrder
+titleLayout.Parent = titleBar
+
+local titlePadding = Instance.new("UIPadding")
+titlePadding.PaddingLeft = UDim.new(0, 12)
+titlePadding.Parent = titleBar
+
+local function makeCubeIcon(order)
+	local icon = Instance.new("ImageLabel")
+	icon.Size = UDim2.new(0, 18, 0, 18)
+	icon.BackgroundTransparency = 1
+	icon.Image = DOGGIE_CUBE_ICON_ID
+	icon.LayoutOrder = order
+	icon.Parent = titleBar
+	return icon
+end
+
+makeCubeIcon(1)
+
+local titleText = Instance.new("TextLabel")
+titleText.Size = UDim2.new(0, 180, 1, 0)
+titleText.BackgroundTransparency = 1
+titleText.Text = "doggiegod123's executor"
+titleText.Font = Enum.Font.FredokaOne
+titleText.TextSize = 15
+titleText.TextColor3 = YELLOW
+titleText.TextXAlignment = Enum.TextXAlignment.Left
+titleText.LayoutOrder = 2
+titleText.Parent = titleBar
+
+makeCubeIcon(3)
+
+-- CLOSE BUTTON
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 26, 0, 26)
+closeBtn.Position = UDim2.new(1, -34, 0, 7)
+closeBtn.BackgroundColor3 = PANEL_DARK
+closeBtn.Text = "X"
+closeBtn.Font = Enum.Font.FredokaOne
+closeBtn.TextSize = 14
+closeBtn.TextColor3 = YELLOW
+closeBtn.ZIndex = 5
+closeBtn.Parent = window
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 5)
+closeCorner.Parent = closeBtn
+
+local closeStroke = Instance.new("UIStroke")
+closeStroke.Color = YELLOW
+closeStroke.Thickness = 2
+closeStroke.Parent = closeBtn
+
+closeBtn.MouseButton1Click:Connect(function()
+	window.Visible = false
+	openBtn.Visible = true
+end)
+
+openBtn.MouseButton1Click:Connect(function()
+	window.Visible = true
+	openBtn.Visible = false
+end)
+
+-- TABS & MAIN LAYOUT
+local tabsFrame = Instance.new("Frame")
+tabsFrame.Name = "Tabs"
+tabsFrame.Size = UDim2.new(0, 90, 1, -40)
+tabsFrame.Position = UDim2.new(0, 0, 0, 40)
+tabsFrame.BackgroundColor3 = PANEL_DARK
+tabsFrame.BorderSizePixel = 0
+tabsFrame.Parent = window
+
+local tabsLayout = Instance.new("UIListLayout")
+tabsLayout.SortOrder = Enum.SortOrder.LayoutOrder
+tabsLayout.Parent = tabsFrame
+
+local tabNames = { "executor", "output", "scripts", "settings" }
+local tabButtons = {}
+
+for i, name in ipairs(tabNames) do
+	local tabBtn = Instance.new("TextButton")
+	tabBtn.Size = UDim2.new(1, 0, 0, 40)
+	tabBtn.BackgroundColor3 = PANEL_DARK
+	tabBtn.Text = name
+	tabBtn.Font = Enum.Font.SourceSans
+	tabBtn.TextSize = 14
+	tabBtn.TextColor3 = Color3.fromRGB(201, 168, 232)
+	tabBtn.LayoutOrder = i
+	tabBtn.Parent = tabsFrame
+	tabButtons[name] = tabBtn
+end
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "Main"
+mainFrame.Size = UDim2.new(1, -90, 1, -40)
+mainFrame.Position = UDim2.new(0, 90, 0, 40)
+mainFrame.BackgroundTransparency = 1
+mainFrame.Parent = window
+
+local editorBox = Instance.new("TextBox")
+editorBox.Name = "Editor"
+editorBox.Size = UDim2.new(1, -20, 0, 120)
+editorBox.Position = UDim2.new(0, 10, 0, 10)
+editorBox.BackgroundColor3 = CONSOLE_BG
+editorBox.ClearTextOnFocus = false
+editorBox.MultiLine = true
+editorBox.Font = Enum.Font.Code
+editorBox.TextSize = 13
+editorBox.TextColor3 = YELLOW
+editorBox.TextXAlignment = Enum.TextXAlignment.Left
+editorBox.TextYAlignment = Enum.TextYAlignment.Top
+editorBox.Text = "-- Universal Executor\nloadstring(game:HttpGet(\"https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\"))()"
+editorBox.Parent = mainFrame
+
+local editorCorner = Instance.new("UICorner")
+editorCorner.CornerRadius = UDim.new(0, 6)
+editorCorner.Parent = editorBox
+
+local editorStroke = Instance.new("UIStroke")
+editorStroke.Color = YELLOW
+editorStroke.Thickness = 2
+editorStroke.Parent = editorBox
+
+local outputBox = Instance.new("ScrollingFrame")
+outputBox.Name = "Output"
+outputBox.Size = UDim2.new(1, -20, 0, 120)
+outputBox.Position = UDim2.new(0, 10, 0, 10)
+outputBox.BackgroundColor3 = CONSOLE_BG
+outputBox.Visible = false
+outputBox.ScrollBarThickness = 6
+outputBox.CanvasSize = UDim2.new(0, 0, 0, 0)
+outputBox.AutomaticCanvasSize = Enum.AutomaticSize.Y
+outputBox.Parent = mainFrame
+
+local outputCorner = Instance.new("UICorner")
+outputCorner.CornerRadius = UDim.new(0, 6)
+outputCorner.Parent = outputBox
+
+local outputStroke = Instance.new("UIStroke")
+outputStroke.Color = YELLOW
+outputStroke.Thickness = 2
+outputStroke.Parent = outputBox
+
+local outputText = Instance.new("TextLabel")
+outputText.Size = UDim2.new(1, -10, 0, 0)
+outputText.AutomaticSize = Enum.AutomaticSize.Y
+outputText.Position = UDim2.new(0, 5, 0, 5)
+outputText.BackgroundTransparency = 1
+outputText.Font = Enum.Font.Code
+outputText.TextSize = 13
+outputText.TextColor3 = Color3.fromRGB(217, 200, 240)
+outputText.TextXAlignment = Enum.TextXAlignment.Left
+outputText.TextYAlignment = Enum.TextYAlignment.Top
+outputText.TextWrapped = true
+outputText.Text = "-- output will appear here --"
+outputText.Parent = outputBox
+
+local function log(msg)
+	outputText.Text = outputText.Text .. "\n" .. msg
+end
+
+local statusLine = Instance.new("TextLabel")
+statusLine.Size = UDim2.new(1, -20, 0, 20)
+statusLine.Position = UDim2.new(0, 10, 0, 140)
+statusLine.BackgroundTransparency = 1
+statusLine.Font = Enum.Font.SourceSansItalic
+statusLine.TextSize = 13
+statusLine.TextColor3 = Color3.fromRGB(255, 127, 191)
+statusLine.Text = "ready. full compatibility engine active."
+statusLine.Parent = mainFrame
+
+local btnGrid = Instance.new("Frame")
+btnGrid.Size = UDim2.new(1, -20, 0, 130)
+btnGrid.Position = UDim2.new(0, 10, 0, 170)
+btnGrid.BackgroundTransparency = 1
+btnGrid.Parent = mainFrame
+
+local gridLayout = Instance.new("UIGridLayout")
+gridLayout.CellSize = UDim2.new(0, 105, 0, 34)
+gridLayout.CellPadding = UDim2.new(0, 8, 0, 8)
+gridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+gridLayout.Parent = btnGrid
+
+local buttonDefs = {
+	{ name = "execute",     primary = true },
+	{ name = "clear" },
+	{ name = "inject" },
+	{ name = "R15" },
+	{ name = "R6" },
+	{ name = "respawn" },
+	{ name = "spawn dummy" },
+	{ name = "fly" },
+	{ name = "noclip" },
+	{ name = "save script" },
+	{ name = "esp" },
+	{ name = "kill all" },
+}
+
+local function makeButton(def, order)
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(0, 105, 0, 34)
+	btn.BackgroundColor3 = def.primary and YELLOW or PURPLE
+	btn.Text = def.name
+	btn.Font = Enum.Font.SourceSansSemibold
+	btn.TextSize = 14
+	btn.TextColor3 = def.primary and PURPLE_DEEP or YELLOW
+	btn.LayoutOrder = order
+	btn.Parent = btnGrid
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = btn
+
+	local stroke = Instance.new("UIStroke")
+	stroke.Color = def.primary and PURPLE or YELLOW
+	stroke.Thickness = 2
+	stroke.Parent = btn
+
+	return btn
+end
+
+local footerNote = Instance.new("TextLabel")
+footerNote.Size = UDim2.new(1, -20, 0, 20)
+footerNote.Position = UDim2.new(0, 10, 1, -24)
+footerNote.BackgroundTransparency = 1
+footerNote.Font = Enum.Font.SourceSans
+footerNote.TextSize = 12
+footerNote.TextColor3 = Color3.fromRGB(201, 168, 232)
+footerNote.Text = "doggiegod123's executor — full script & module engine"
+footerNote.Parent = mainFrame
+
+local function showTab(name)
+	for tName, tBtn in pairs(tabButtons) do
+		tBtn.BackgroundColor3 = (tName == name) and PANEL or PANEL_DARK
+		tBtn.TextColor3 = (tName == name) and YELLOW or Color3.fromRGB(201, 168, 232)
+	end
+
+	if name == "executor" then
+		editorBox.Visible = true
+		outputBox.Visible = false
+	elseif name == "output" then
+		editorBox.Visible = false
+		outputBox.Visible = true
+	elseif name == "scripts" then
+		editorBox.Visible = false
+		outputBox.Visible = true
+		outputText.Text = "saved scripts:\n> loadstring(game:HttpGet(...))()\n> require(ModuleScript)\n> _G.MyVariable = true"
+	elseif name == "settings" then
+		editorBox.Visible = false
+		outputBox.Visible = true
+		outputText.Text = "settings:\n> theme: purple/yellow\n> loadstring support: active\n> custom require: active"
+	end
+end
+
+for name, btn in pairs(tabButtons) do
+	btn.MouseButton1Click:Connect(function()
+		showTab(name)
+	end)
+end
+
+showTab("executor")
+
+-- COMPREHENSIVE SCRIPT EXECUTION ENGINE
+local function executeCode(codeSource)
+	local compiledFunc, compileErr = loadstring(codeSource)
+	if not compiledFunc then
+		return false, "[compile error]: " .. tostring(compileErr)
+	end
+
+	-- Environment construction supporting standard Luau globals & extensions
+	local customEnv = setmetatable({}, {
+		__index = function(_, key)
+			if key == "loadstring" then
+				return function(src)
+					return function()
+						local success, result = executeCode(src)
+						if not success then error(result, 2) end
+						return result
+					end
+				end
+			elseif key == "require" then
+				return function(target)
+					if type(target) == "string" and (target:find("http://") or target:find("https://")) then
+						local content = game:HttpGet(target)
+						local loaded, err = loadstring(content)
+						if not loaded then error("Failed require URL: " .. tostring(err)) end
+						setfenv(loaded, getfenv())
+						return loaded()
+					else
+						return require(target)
+					end
+				end
+			end
+			return getfenv()[key]
+		end,
+		__newindex = function(_, key, val)
+			getfenv()[key] = val
+		end
+	})
+
+	setfenv(compiledFunc, customEnv)
+	return pcall(compiledFunc)
+end
+
+local responses = {
+	["execute"] = function()
+		showTab("output")
+		log("> executing script...")
+		
+		task.spawn(function()
+			local success, result = executeCode(editorBox.Text)
+			if not success then
+				log("[runtime error]: " .. tostring(result))
+			else
+				log("> script finished execution.")
+			end
+		end)
+	end,
+	["clear"] = function()
+		editorBox.Text = ""
+		log("> editor cleared")
+	end,
+	["inject"] = function()
+		log("> engine runtime initialized.")
+	end,
+}
+
+for i, def in ipairs(buttonDefs) do
+	local btn = makeButton(def, i)
+	btn.MouseButton1Click:Connect(function()
+		local fn = responses[def.name]
+		if fn then 
+			fn() 
+		else
+			log("> button [" .. def.name .. "] clicked")
+		end
+	end)
+end
+
+-- WINDOW DRAGGING
+local dragging, dragStart, startPos
+titleBar.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = window.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+	if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+		local delta = input.Position - dragStart
+		window.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+end)
